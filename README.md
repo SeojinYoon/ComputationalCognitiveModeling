@@ -1,5 +1,7 @@
 # ComputationalCognitiveModeling
-This repository is for "ComputationalCognitiveModeling" class in Hanyang university(2023-2). There are two kinds of directory the one is BayesianCognitiveModeling(Lee, M., & Wagenmakers, E. (2014)) and the other is ComputationalModeling(Farrell & Lewandowsky, S. (2018)).  I checked the sources on my mac and windows using r-studio(version: 2023.06.2+561). 
+This repository is for "ComputationalCognitiveModeling" class in Hanyang university(2023-2). There are two kinds of directory the one is BayesianCognitiveModeling(Lee, M., & Wagenmakers, E. (2014)) and the other is ComputationalModeling(Farrell & Lewandowsky, S. (2018)).  
+
+I checked the sources on my mac and windows using r-studio(version: 2023.06.2+561). 
 
 # Dependency
 
