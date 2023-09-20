@@ -15,8 +15,6 @@ Mac (version: 12.6.8)
   
 # Dependency of ComputationalModeling (Farrell & Lewandowsky, S. (2018))
 
-**Some tip to run codes**.
-
 In order to run the sources in computational modeling sources, you have to install rjags. Following version what i checked.
 
 Windows 10 (builder version: 22H2)
