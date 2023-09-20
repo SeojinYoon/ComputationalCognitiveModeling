@@ -1,24 +1,28 @@
 # ComputationalCognitiveModeling
-This source is for "ComputationalCognitiveModeling" class in Hanyang university. (2023-2)
+This source is for "ComputationalCognitiveModeling" class in Hanyang university. (2023-2) I checked sources on my mac and windows using r-studio(version: 2023.06.2+561).
 
-# Checked environment
+# Dependency of BayesianCognitiveModeling (Lee, M., & Wagenmakers, E. (2014))
 
-I checked these sources on mac and windows 10(builder version: 22H2) and mac(version: 12.6.8).
+For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources using following configuration.
 
-# BayesianCognitiveModeling (Lee, M., & Wagenmakers, E. (2014))
-
-
-
-# ComputationalModeling (Farrell & Lewandowsky, S. (2018))
+Windows 10 (builder version: 22H2)
+- rstan: 2.21.0
+- rtools: 43
+  
+Mac (version: 12.6.8)
+- rstan: 2.21.0
+- rtools: don't need
+  
+# Dependency of ComputationalModeling (Farrell & Lewandowsky, S. (2018))
 
 **Some tip to run codes**.
 
 In order to run the sources in computational modeling sources, you have to install rjags. Following version is what i checked version. 
 
-Windows
+Windows 10 (builder version: 22H2)
 - rjags: 4.3.1
   
-Mac
+Mac (version: 12.6.8)
 - rjags: 4.3.0
 
 I experienced mac is fine to run codes, but in case of windows, I had an error to run the code like library(rjags) even though I have installed rjags in rstudio. The error is "Failed to locate any version of JAGS version 4". To fix the error, I installed rjags using these website. The first one guides me the way to install rjags and the second is download page for rjags. Install process is very simple. Just download and execute .exe file. 
