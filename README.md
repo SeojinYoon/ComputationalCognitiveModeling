@@ -9,7 +9,6 @@ For running codes in BayesianCognitiveModeling, You have to install some librari
 install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
 
 Windows 10 (builder version: 22H2)
-- rstan: 2.21.0
 - rtools: 43
   
 Mac (version: 12.6.8)
