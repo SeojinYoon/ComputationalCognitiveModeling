@@ -11,7 +11,7 @@ I checked these sources on mac and windows 10(builder version: 22H2) and mac(ver
 
 # ComputationalModeling (Farrell & Lewandowsky, S. (2018))
 
-## Some tip to run codes.
+**Some tip to run codes**.
 
 In order to run the sources in computational modeling sources, you have to install rjags. Following version is what i checked version. 
 
