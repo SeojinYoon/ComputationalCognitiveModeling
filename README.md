@@ -1,8 +1,9 @@
 # ComputationalCognitiveModeling
-This source is for "ComputationalCognitiveModeling" class in Hanyang university. (2023-2) I checked sources on my mac and windows using r-studio(version: 2023.06.2+561).
+This repository is for "ComputationalCognitiveModeling" class in Hanyang university(2023-2). There are two kinds of directory the one is BayesianCognitiveModeling(Lee, M., & Wagenmakers, E. (2014)) and the other is ComputationalModeling(Farrell & Lewandowsky, S. (2018)).  I checked the sources on my mac and windows using r-studio(version: 2023.06.2+561). 
 
-# Dependency of BayesianCognitiveModeling (Lee, M., & Wagenmakers, E. (2014))
+# Dependency
 
+## BayesianCognitiveModeling
 For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources using following configuration.
 
 Windows 10 (builder version: 22H2)
@@ -13,7 +14,7 @@ Mac (version: 12.6.8)
 - rstan: 2.21.0
 - rtools: don't need
   
-# Dependency of ComputationalModeling (Farrell & Lewandowsky, S. (2018))
+## ComputationalModeling
 
 In order to run the sources in computational modeling sources, you have to install rjags. Following version what i checked.
 
