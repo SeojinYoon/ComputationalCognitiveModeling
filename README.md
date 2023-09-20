@@ -8,7 +8,8 @@ For running codes in BayesianCognitiveModeling, You have to install some librari
 
 This line is for installing latest version of rstan.
 - install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-
+  - current latest version is 2.26.23
+    
 **Checked Configuration**
 
 Windows 10 (builder version: 22H2)
