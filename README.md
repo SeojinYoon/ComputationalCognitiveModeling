@@ -4,11 +4,14 @@ This repository is for "ComputationalCognitiveModeling" class in Hanyang univers
 # Dependency
 
 ## BayesianCognitiveModeling
-For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources in context of following configuration. In my case, mac was fine to run codes, but windows have an issue about importing rstan. To solve the issue, I installed the rstan using the code in my r-studio. 
+For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources in context of following configuration. In my case, mac was fine to run codes, but windows have an issue about importing rstan. To solve the issue, I installed the rstan using following code in my r-studio. 
 
-install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
+This line is for installing latest version of rstan.
+- install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
 
+Checked Configuration
 Windows 10 (builder version: 22H2)
+- rstan: 2.26.23
 - rtools: 43
   
 Mac (version: 12.6.8)
@@ -17,7 +20,7 @@ Mac (version: 12.6.8)
   
 ## ComputationalModeling
 
-In order to run the sources in computational modeling sources, you have to install rjags. Following version what i checked.
+In order to run the sources in computational modeling sources, you have to install rjags. Following version is what i checked.
 
 Windows 10 (builder version: 22H2)
 - rjags: 4.3.1
