@@ -1,3 +1,4 @@
+
 require(lme4)  
 n <- 10  
 sigtrials <- noistrials <- 100   
@@ -18,22 +19,20 @@ resp <- as.vector( vapply(h,FUN=function(x)
                                          integer(ntrials))  )
 
 #model with intercept = z(FA) default
-mlhierarchSDT <- glmer(resp ~ stim + (1+stim|subj), family=binomial(probit)) 
+mlhierarchSDT <- glmer(resp ~ stim + (1+stim|subj), family=binomial(link = "probit")) 
 summary(mlhierarchSDT)
 
 #reparameterize so intercept = c
 reparmstim <- cbind(-1,stim)
 colnames(reparmstim) <- c("_c", "_d'")
-mlhierarchSDTc <- glmer(resp ~ reparmstim-1 + (1+stim|subj), family=binomial(probit))
+mlhierarchSDTc <- glmer(resp ~ reparmstim-1 + (1+stim|subj), family=binomial(link = "probit"))
 summary(mlhierarchSDTc)
 
 #reparameterize so b is not highly correlated with d'
 rmstim <- stim-.5 
 reparmstim <- cbind(-1,rmstim)   
 colnames(reparmstim) <- c("_b", "_d'")
-mlhierarchSDTrp <- glmer(resp ~ reparmstim-1 + (1+rmstim|subj), family=binomial(probit))
+mlhierarchSDTrp <- glmer(resp ~ reparmstim-1 + (1+rmstim|subj), family=binomial(link = "probit"))
 summary(mlhierarchSDTrp)
-
-
 
 

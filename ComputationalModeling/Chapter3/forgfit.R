@@ -53,7 +53,7 @@ histoplot<-function(x,l4x) {
     abline(v=uq,lty="dashed",lwd=2)
     return(c(lq,uq))
 }
-x11(5,2)
+x11()
 par(mfcol=c(1,3),las=1)
 for (i in c(1:dim(bsparms)[2])) {
     print(histoplot(bsparms[,i],names(sparms)[i]))

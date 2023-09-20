@@ -20,6 +20,13 @@ parms4j <- c("p", "q", "c","predprob")
 mcmcfin<-coda.samples(noconflict,parms4j,5000) 
 
 summary(mcmcfin)
+# Get the operating system name
+os_name <- Sys.info()["sysname"]
+if (os_name == "Darwin") {
+  x11()
+}
+
+# Plot
 plot(mcmcfin)
 acfplot(mcmcfin)
 gelman.plot(mcmcfin)

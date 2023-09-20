@@ -20,5 +20,12 @@ parameters <- c("d", "b", "phih", "phif")
 mcmcfin<-coda.samples(sdtj,parameters,5000) 
 
 summary(mcmcfin)
+
+# Get the operating system name
+os_name <- Sys.info()["sysname"]
+if (os_name == "Darwin") {
+  x11()
+}
+# Plot
 plot(mcmcfin)
 gelman.plot(mcmcfin)
