@@ -6,20 +6,22 @@ I checked the sources on my mac and windows using r-studio(version: 2023.06.2+56
 # Dependency
 
 ## BayesianCognitiveModeling
-For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources in context of following configuration. In my case, mac was fine to run codes, but windows have an issue about importing rstan. To solve the issue, I installed the rstan using following code in my r-studio. 
+For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources in context of following configuration. In my case, mac was fine to run codes, but windows have an issue about importing rstan. To solve the issue, I installed the rstan using following codes in my r-studio. 
 
-This line is for installing latest version of rstan.
-- install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")))
-  - current latest version is 2.26.23
+This line is for installing specific version of rstan. These lines install latest version of library (2023.09.25)
+- install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")), version = "2.26.23")
+- install.packages(c("StanHeaders"), type="source", version="2.26.28")
     
 **Checked Configuration**
 
 Windows 10 (builder version: 22H2)
 - rstan: 2.26.23
+- StanHeaders: 2.26.28
 - rtools: 43
   
 Mac (version: 12.6.8)
 - rstan: 2.21.0
+- StanHeaders: 2.26.27
 - rtools: don't need
   
 ## ComputationalModeling
