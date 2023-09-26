@@ -1,19 +1,24 @@
+
+# Library version
+
+Some Sources in this repository are sensitive to library version. Following lines are methods to check version of library. After importing a library, you can check library version using sessionInfo().
+
+```r
+library(rstan)  
+sessionInfo()  
+```
+
 # ComputationalCognitiveModeling
+
 This repository is for "ComputationalCognitiveModeling" class in Hanyang university(2023-2). There are two kinds of directory the one is BayesianCognitiveModeling(Lee, M., & Wagenmakers, E. (2014)) and the other is ComputationalModeling(Farrell & Lewandowsky, S. (2018)).  
 
-I checked the sources on my mac and windows using r-studio(version: 2023.06.2+561). 
+I checked the sources on my mac and windows computer using r-studio(version: 2023.06.2+561). 
 
 # Dependency
 
 ## BayesianCognitiveModeling
-For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). I checked these sources in context of following configuration. In my case, mac was fine to run codes, but windows have an issue about importing rstan. To solve the issue, I installed the rstan using following codes in my r-studio. 
 
-This line is for installing specific version of rstan. These lines install latest version of library (2023.09.25)
-
-```r
-install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")), version = "2.26.23")
-install.packages(c("StanHeaders"), type="source", version="2.26.28")
-```
+For running codes in BayesianCognitiveModeling, You have to install some libraries (rstan, rtools). Following configuration are library version of what I checked.
 
 **Checked Configuration**
 
@@ -26,6 +31,13 @@ Mac (version: 12.6.8)
 - rstan: 2.21.0
 - StanHeaders: 2.26.27
 - rtools: don't need
+
+In my case, mac which uses old version of rstan was fine to run codes, but windows have an issue about importing rstan. To solve the issue, I installed the latest version of rstan. These lines install specific version of rstan. rstan(2.26.23) and StanHeaders(2.26.28) are latest version of library (2023.09.25)
+
+```r
+install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")), version = "2.26.23")
+install.packages(c("StanHeaders"), type="source", version="2.26.28")
+```
   
 ## ComputationalModeling
 
@@ -41,14 +53,4 @@ I experienced mac is fine to run codes, but in case of windows, I had an error t
 
 1. https://mcmc-jags.sourceforge.io/
 2. https://sourceforge.net/projects/mcmc-jags/
-
-## Library version check
-
-You can check version using sessionInfo() after import library. 
-
-```r
-library(rstan)  
-sessionInfo()  
-```
-
 
