@@ -39,3 +39,10 @@ I experienced mac is fine to run codes, but in case of windows, I had an error t
 1. https://mcmc-jags.sourceforge.io/
 2. https://sourceforge.net/projects/mcmc-jags/
 
+## Library version check
+
+You can check version using sessionInfo() after import library. 
+
+library(rstan)  
+sessionInfo()  
+
