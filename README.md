@@ -41,7 +41,7 @@ install.packages(c("StanHeaders"), type="source", version="2.26.28")
   
 ## ComputationalModeling
 
-In order to run the sources in computational modeling sources, you have to install rjags. Following version is what i checked.
+In order to run the sources in computational modeling sources, you have to install rjags. Following versions are what I checked.
 
 Windows 10 (builder version: 22H2)
 - rjags: 4.3.1
