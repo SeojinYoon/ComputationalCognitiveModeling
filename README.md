@@ -43,12 +43,9 @@ I experienced mac is fine to run codes, but in case of windows, I had an error t
 
 You can check version using sessionInfo() after import library. 
 
-use_readme_rmd(open = rlang::is_interactive())
-
+```r
 library(rstan)  
 sessionInfo()  
-
-use_readme_md(open = rlang::is_interactive())
-
+```
 
 
