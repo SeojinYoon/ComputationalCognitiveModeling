@@ -3,27 +3,27 @@
 
 https://mc-stan.org/docs/reference-manual/overview-of-stans-program-blocks.html
 
-functions {
-  // ... function declarations and definitions ...
-}
-data {
-  // ... declarations ...
-}
-transformed data {
-   // ... declarations ... statements ...
-}
-parameters {
-   // ... declarations ...
-}
-transformed parameters {
-   // ... declarations ... statements ...
-}
-model {
-   // ... declarations ... statements ...
-}
-generated quantities {
-   // ... declarations ... statements ...
-}
+functions {  
+  // ... function declarations and definitions ...  
+}  
+data {  
+  // ... declarations ...  
+}  
+transformed data {  
+   // ... declarations ... statements ...  
+}  
+parameters {  
+   // ... declarations ...  
+}  
+transformed parameters {  
+   // ... declarations ... statements ...  
+}  
+model {  
+   // ... declarations ... statements ...  
+}  
+generated quantities {  
+   // ... declarations ... statements ...  
+}  
 
 Following lines explains program block in stan and each number is order of program block.
 
