@@ -3,7 +3,9 @@
 
 https://mc-stan.org/docs/reference-manual/overview-of-stans-program-blocks.html
 
-1. Functions Block (Optional):  
+Following lines explains program block in stan and each number is order of program block.
+
+1. Functions Block:  
 This block is used to define custom functions that you may need in your model. It's optional and is placed at the beginning if needed.
 2. Data Block:  
 In the data block, you declare and define the data that your model will use. This includes observed data, constants, and any data-related transformations.
