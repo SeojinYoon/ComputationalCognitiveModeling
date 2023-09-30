@@ -12,10 +12,10 @@ library(rstan)
 model <- "
 // Planes
 data { 
-  int<lower=1> x;
-  int<lower=1> n;
-  int<lower=0,upper=n> k;
-  int<lower=x> tmax;
+  int<lower=1> x; // size of first sample (captures)
+  int<lower=1> n; // size of second sample
+  int<lower=0,upper=n> k; // number of recaptures from n
+  int<lower=x> tmax; // maximum population size
 }
 transformed data {
   int<lower=x> tmin;
@@ -29,6 +29,7 @@ transformed parameters {
     if (t < tmin)
       lp_parts[t] <- log(1.0 / tmax) + negative_infinity();  // Zero probability
     else
+      // t - x: untagged population
       lp_parts[t] <- log(1.0 / tmax) + hypergeometric_log(k, n, x, t - x);
 }
 model {
