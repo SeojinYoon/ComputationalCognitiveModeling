@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -99,7 +97,13 @@ c6 <- extract(samples_6)$c
 r6 <- extract(samples_6)$r
 u6 <- extract(samples_6)$u
 
-windows(10, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(10, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 layout(matrix(1:3, 1, 3, byrow=TRUE))
 par(cex=1.1, mar=c(2, 2, 1, 1), mgp=c(.8, .1, 0))
 

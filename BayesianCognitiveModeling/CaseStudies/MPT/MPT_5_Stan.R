@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 rstan_options(auto_write = TRUE)
@@ -185,7 +183,13 @@ rhocu6 <- extract(samples_6)$Omega[, 1, 3]
 rhoru6 <- extract(samples_6)$Omega[, 2, 3]
 
 #### Plots posteriors of the group--level c, r, and u parameters
-windows(10, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(10, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 layout(matrix(1:3, 1, 3, byrow=TRUE))
 par(cex=1.1, mar=c(2, 2, 1, 1), mgp=c(.8, .1, 0))
 
@@ -211,7 +215,13 @@ lines(density(muu1))
 axis(1, seq(0, 1, by=.2), tick=FALSE)
 
 #### Plots posteriors for the correlations
-windows(10, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(10, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 layout(matrix(1:3, 1, 3, byrow=TRUE))
 par(cex=1.1, mar=c(2, 2, 1, 1), mgp=c(.8, .1, 0))
 

@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -98,6 +96,18 @@ xhigh <- 0
 yhigh <- 12
 Nbreaks <- 80
 y       <- hist(delta.posterior, Nbreaks, plot=F)
+
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows() #this command works only under Windows!
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11(width = 10, height = 5)
+  quartz()
+}
+
 plot(c(y$breaks, max(y$breaks)), c(0,y$density,0), type="S", lwd=2, lty=2,
      xlim=c(xlow,xhigh), ylim=c(0,yhigh), xlab=" ", ylab="Density", axes=F) 
 axis(1, at = c(-3,-2,-1,0), lab=c("-3","-2","-1","0"))

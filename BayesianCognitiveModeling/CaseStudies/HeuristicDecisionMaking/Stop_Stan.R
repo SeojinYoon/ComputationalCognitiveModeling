@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 # Set working directory!
 
@@ -138,7 +136,13 @@ get_mean <- function(var, i, j="", dim=2) {
     means[paste(var, "[", i, "]", sep=""), ]
 }
 
-windows(9, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mar=c(3, 3, 1, 1) + .1, xaxs="i", mgp=c(1.3, 0.2, 0))
 plot("", xlim=c(0, 31), ylim=c(1, 20), xlab="Question", ylab="Subject", xaxt="n", yaxt="n")
 axis(1, c(1, 25, 30), tck=0)
@@ -153,7 +157,13 @@ for (i in 1:ns) {
 }
 
 #### Figure 18.5 ####
-windows(8, 3)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(8, 3)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mar=c(3, 2, 1, 1) + .1, mgp=c(1.3, 0.2, 0), oma=c(0,3,0,0))
 barplot(get_mean("z", 1:20, dim=1), col="black", names.arg=1:20,
         yaxt="n", xlab="Subject", ylab="")

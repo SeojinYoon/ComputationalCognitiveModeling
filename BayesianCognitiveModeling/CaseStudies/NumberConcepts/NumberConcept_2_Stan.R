@@ -1,5 +1,4 @@
-# clears workspace: 
-rm(list=ls()) 
+
 library(rstan)
 
 model <- "
@@ -161,7 +160,13 @@ names(tabtmp) <- wlist
 for (i in names(tabtmp))
   tab[i] <- tabtmp[i]
 
-windows(8,5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(8, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mar=c(3, 2, 1, 1) + .1, mgp=c(1.3, 0.2, 0), cex.lab=1.2)
 barplot(as.vector(tab), ylim=c(0, max(tab) * 1.2), col="black", yaxt="n", 
         xlab="Number", ylab="")
@@ -171,7 +176,12 @@ axis(1, at=c(.7, 11.5, 23.5, 35.5, 47.5, 59.5), tck=0,
 box()
 
 #### Figure 19.8 ####
-windows(9, 6)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 6)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
 par(mfrow=c(4, 5), mar=c(1, 0, 2, 2) + .1, oma=c(2.6, 2.8, 1, 0),
     mgp=c(1.5, 0.15, 0))
 for (i in 1:ns) {
@@ -211,7 +221,13 @@ for (i in 1:ns) {  # computing mode of z for each child
   mv[i] <- uz[which.max(tabulate(match(zSamples[, i], uz)))]
 }
 
-windows(9, 6)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 6)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mfrow=c(2, 3), mar=c(2, 2, 2, 1) + .1, oma=c(2, 3, 0, 0), mgp=c(.2, .2, 0),
     cex.lab=1)
 for (z in 1:nz) {

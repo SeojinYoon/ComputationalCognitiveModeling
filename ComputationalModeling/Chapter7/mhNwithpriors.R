@@ -36,7 +36,19 @@ for (i in c(2:length(chain))) {
 print(c(mean(chain),var(chain)))
 if (p2f) {
   pdf(file=paste("npostwpriorsd",as.character(priorsd),".pdf",sep=""),height=5,width=5)
-} else {x11(5,5)}
+} else {
+  # Figure
+  if (system_info["sysname"] == "Windows") {
+    windows(width = 5, height = 5)
+  } else {
+    # Run a different function or do nothing for non-Windows OS
+    # library(grDevices)
+    # x11(width = 5, height = 5)
+    
+    quartz(width = 5, height = 5)
+  }
+}
+
 par(mar=c(4, 3, 1, 0.5))
 plot(density(chain),las=1,xlab=bquote("Sampled values of "*mu),
      yaxt="n",lwd=2,lty="dashed",
@@ -56,7 +68,19 @@ legend("topright",inset=.02,c("Normal PDF","All MCMC","Excluding burnin","Prior 
        lty=c("solid","dashed","solid","dotdash"),col=c("gray","black","black","gray"),lwd=c(4,2,2,4))
 if (p2f) {dev.off()}
 
-x11() #caterpillar plot
+# Figure
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
+
 plot(chain,type="l",las=1,xlab="Iteration",ylab="Value of accepted sample")
 lines(1:burnin,chain[1:burnin],col="red")
 

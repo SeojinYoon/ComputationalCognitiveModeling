@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 

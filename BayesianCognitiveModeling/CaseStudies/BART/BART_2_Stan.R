@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -108,7 +106,16 @@ beta.tipsy  <- extract(samples)$beta[,2]
 beta.drunk  <- extract(samples)$beta[,3]
 
 #################### PLOT SOME RESULTS
-windows()
+if (.Platform$OS.type == "windows") {
+  windows()
+} else if (.Platform$OS.type == "unix") {
+  if (Sys.info()["sysname"] == "Darwin") {
+    quartz()
+  } else {
+    x11()
+  }
+}
+
 par (cex.main = 2.5, cex.lab = 2, cex.axis = 1.5, mar = c(5, 5, 4, 0), las = 1)
 layout (matrix (1:9, 3, 3, byrow = T))
 

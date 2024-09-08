@@ -1,5 +1,3 @@
-# clears workspace:
-rm(list=ls())
 
 library(rstan)
 
@@ -69,6 +67,16 @@ samples <- stan(model_code=model,
 # Now the values for the monitored parameters are in the "samples" object,
 # ready for inspection.
 
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows() #this command works only under Windows!
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  quartz()
+}
 plot(samples)
 
 # Collect posterior samples across all chains:

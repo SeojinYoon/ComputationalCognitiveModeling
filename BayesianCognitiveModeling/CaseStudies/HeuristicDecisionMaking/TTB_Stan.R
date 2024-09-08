@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 # Set working directory!
 
@@ -94,7 +92,13 @@ get_mean <- function(i, j) {
   means[paste("ypred[", i, ",", j, "]", sep=""), ]
 }
 
-windows(9,5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mar=c(3, 3, 1, 1) + .1, xaxs="i", mgp=c(1.3, 0, 0))
 plot("", xlim=c(0, 31), ylim=c(1, 20), xlab="Question", ylab="Subject", xaxt="n", yaxt="n")
 axis(1, c(1, 25, 30), tck=0)

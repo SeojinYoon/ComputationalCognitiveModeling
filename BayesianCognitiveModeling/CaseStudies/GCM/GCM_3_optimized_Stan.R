@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -25,47 +23,42 @@ parameters {
   vector<lower=0,upper=1>[2] wpredg;  
   real<lower=0,upper=1> phic;
   real<lower=0,upper=1> phig;
-  real<lower=0,upper=1> muctmp;
+  real<lower=0,upper=5> muc;  // Mean Generalization
   real<lower=0,upper=1> muwtmp;
   real<lower=0,upper=1> delta;
-  real<lower=0,upper=1> sigmactmp;
-  real<lower=0,upper=1> sigmawtmp;
+  real<lower=0,upper=3> sigmac;  // Standard Deviation Generalization
+  real<lower=0,upper=1> sigmaw;  // Standard Deviation Attention
 } 
 transformed parameters {
-  matrix<lower=0,upper=1>[nsubj,nstim] r; 
-  real<lower=0,upper=5> muc;
+  vector[nstim] log_r[nsubj]; 
   vector<lower=0,upper=1>[2] muw;
-  real<lower=.01,upper=3> sigmac;
-  real<lower=.01,upper=1> sigmaw;
   vector[2] lp_parts_c[nsubj];
   vector[2] lp_parts_g[nsubj];
 
-  // Mean Generalization
-  muc <- 5 * muctmp;
   // Mean Attention
   muw[1] <- muwtmp;
   muw[2] <- fmin(1, delta + muw[1]);
-  // Standard Deviation Generalization
-  sigmac <- fmax(.01, 3 * sigmactmp);
-  // Standard Deviation Attention
-  sigmaw <- fmax(.01, sigmawtmp);
 
   for (i in 1:nstim) {
     vector[nstim] numerator;
     vector[nstim] denominator;
     for (k in 1:nsubj) {
       for (j in 1:nstim) {
-        real s;
+        real log_s;
         // Similarities
-        s <- exp(-c[k] * (w[k] * d1[i,j] + (1 - w[k]) * d2[i,j])); 
-
-        // Base Decision Probabilities
-        numerator[j] <- (a[j] == 1) * b * s;
-        denominator[j] <- (a[j] == 1) * b * s + (a[j] == 2) * (1 - b) * s;
+        log_s <- -c[k] * (w[k] * d1[i,j] + (1 - w[k]) * d2[i,j]);
+        if (a[j] == 1) {
+          numerator[j] <- log(b) + log_s;
+          denominator[j] <- numerator[j];
+        } else {
+          numerator[j] <- negative_infinity();
+          denominator[j] <- log1m(b) + log_s;
+        }
       }
-      r[k,i] <- sum(numerator) / sum(denominator);
-    } 
-  }  
+      log_r[k,i] <- log_sum_exp(numerator) - log_sum_exp(denominator);
+    }
+  }
+    
   for (k in 1:nsubj) { 
     lp_parts_g[k,1] <- log1m(phig) + normal_log(w[k], muw[1], sigmaw)
                        - log(normal_cdf(1, muw[1], sigmaw) 
@@ -74,8 +67,15 @@ transformed parameters {
                        - log(normal_cdf(1, muw[2], sigmaw) 
                              - normal_cdf(0, muw[2], sigmaw));
   }
-  for (k in 1:nsubj) {
-    lp_parts_c[k,1] <- log1m(phic) + binomial_log(y[k], n, r[k]);
+  for (k in 1:nsubj) {    
+    vector[nstim] tmp;
+    
+     // Binomial distribution written as Log Probability Mass Function
+    for (i in 1:nstim)
+      tmp[i] <- lgamma(n + 1) - lgamma(y[k,i] + 1) - lgamma(n - y[k,i] + 1) 
+                + y[k,i] * log_r[k,i] + (n - y[k,i]) * log1m_exp(log_r[k,i]);
+  
+    lp_parts_c[k,1] <- log1m(phic) + sum(tmp);
     lp_parts_c[k,2] <- log(phic) + binomial_log(y[k], n, .5);
   }
 }
@@ -83,13 +83,11 @@ model {
   // Subject Parameters
   for (k in 1:nsubj)
     c[k] ~ normal(muc, sigmac)T[0,];
-
   // Predicted Group Parameters
   for (g in 1:2) {
     wpredg[g] ~ normal(muw[g], sigmaw)T[0,1];
     cpredg[g] ~ normal(muc, sigmac)T[0,];
   }
-
   // Decision Data
   for (k in 1:nsubj) 
     increment_log_prob(log_sum_exp(lp_parts_g[k]));
@@ -102,27 +100,32 @@ generated quantities {
   int<lower=0,upper=3> z[nsubj];
 
   for (i in 1:nstim) {
-    matrix[2,nstim] numeratorpredg;
-    matrix[2,nstim] denominatorpredg;
-    vector[3] rpredg;
-    for (j in 1:nstim) { 
-      for (g in 1:2) {
-        real spredg;
-        spredg <- exp(-cpredg[g] * (wpredg[g] * d1[i,j] 
-                                    + (1 - wpredg[g]) * d2[i,j]));
-        numeratorpredg[g,j]   <- (a[j] == 1) * b * spredg;
-        denominatorpredg[g,j] <- (a[j] == 1) * b * spredg
-                                  + (a[j] == 2) * (1 - b) * spredg;
+    vector[3] rpredg_log;
+    for (g in 1:2) {
+      vector[nstim] numeratorpredg;
+      vector[nstim] denominatorpredg;
+      for (j in 1:nstim) { 
+        real spredg_log;
+        spredg_log <- -cpredg[g] * (wpredg[g] * d1[i,j]
+                                    + (1 - wpredg[g]) * d2[i,j]);
+        if (a[j] == 1) {
+          numeratorpredg[j] <- log(b) + spredg_log;
+          denominatorpredg[j] <- numeratorpredg[j];
+        } else {
+          numeratorpredg[j] <- negative_infinity();
+          denominatorpredg[j] <- log1m(b) + spredg_log;
+        }
       }      
+      rpredg_log[g] <- log_sum_exp(numeratorpredg) - log_sum_exp(denominatorpredg); 
     }
-    for (g in 1:2)
-      rpredg[g] <- sum(numeratorpredg[g]) / sum(denominatorpredg[g]); 
-
-    rpredg[3] <- 0.5;
+    rpredg_log[3] <- log(.5);
     
     // Groups
-    for (g in 1:3)
-      predyg[g,i] <- binomial_rng(n, rpredg[g]);
+    for (g in 1:3) {
+      real rpredg;
+      rpredg <- exp(rpredg_log[g]);
+      predyg[g,i] <- binomial_rng(n, rpredg);
+    }
   }
 
   for (k in 1:nsubj) {
@@ -146,13 +149,12 @@ y <- t(y)  # Transpose matrix (for simpler Stan implementation)
 # To be passed on to Stan
 data <- list(y=y, nstim=nstim, nsubj=nsubj, n=n, a=a, d1=d1, d2=d2) 
 
+set.seed(1234)
 myinits <- list(
   list(c=abs(rnorm(nsubj, 1, .5)), w=runif(nsubj, 0, 1), cpredg=c(2.5, 2.5),
-       wpredg=c(.5, .5), phic=.5, phig=.5, muctmp=.5, muwtmp=.25, delta=.5,
-       sigmactmp=.5, sigmawtmp=.5),
+       wpredg=c(.5, .5), phic=.5, phig=.5, muc=2.5, muwtmp=.25, delta=.5),
   list(c=abs(rnorm(nsubj, 1, .5)), w=runif(nsubj, 0, 1), cpredg=c(2.5, 2.5),
-       wpredg=c(.5, .5), phic=.5, phig=.5, muctmp=.5, muwtmp=.25, delta=.5,
-       sigmactmp=.5, sigmawtmp=.5))
+       wpredg=c(.5, .5), phic=.5, phig=.5, muc=2.5, muwtmp=.25, delta=.5))
 
 # Parameters to be monitored
 parameters <- c("delta", "phic", "phig", "c", "w", "muc", "muw", "sigmac",
@@ -162,18 +164,17 @@ parameters <- c("delta", "phic", "phig", "c", "w", "muc", "muw", "sigmac",
 # For a detailed description type "?stan".
 samples <- stan(model_code=model,   
                 data=data, 
-                init=myinits,  # If not specified, gives random inits
+                init="random",  # If not specified, gives random inits
                 pars=parameters,
-                iter=700, 
+                iter=600, 
                 chains=2, 
                 thin=1,
-                warmup=200,  # Stands for burn-in; Default = iter/2
-                seed=541  # Setting seed; Default is random seed
+                warmup=100,  # Stands for burn-in; Default = iter/2
+                # seed=541  # Setting seed; Default is random seed
 )
 # Now the values for the monitored parameters are in the "samples" object, 
 # ready for inspection.
-# For better estimates increase number of iterations or run optimized  
-# model in file GCM_3_optimized_Stan.R
+# For better estimates increase number of iterations. 
 
 z <- extract(samples)$z
 predyg <- extract(samples)$predyg
@@ -196,7 +197,13 @@ ord2 <- ord2[z2[ord2] > .5]
 ord3 <- ord3[z3[ord3] > .5]
 ord <- c(ord3, ord2, ord1)
 
-windows(7, 4)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(7, 4)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 plot(z1[ord], ylim=c(0, 1), type="b", pch=0, ylab="Membership Probability",
      xlab="Subject")
 lines(z2[ord], type="b", pch=1)
@@ -213,7 +220,13 @@ squaresize <- 8
 whichGroup <- apply(cbind(z1, z2, z3), 1, which.max)
 xaxes <- c("n", "n", "s")
 
-windows(14,7)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(7, 4)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 layout(matrix(1:3, 1, 3))
 par(cex.main=1.5, mar=c(5, 5, 4, 1) + 0.1, mgp=c(3.5, 1, 0), cex.lab=1.5,
     font.lab=2, cex.axis=1.3)

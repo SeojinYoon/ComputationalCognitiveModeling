@@ -22,10 +22,18 @@ mcmcfin<-coda.samples(sdtj,parameters,5000)
 summary(mcmcfin)
 
 # Get the operating system name
-os_name <- Sys.info()["sysname"]
-if (os_name == "Darwin") {
-  x11()
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
 }
+
 # Plot
 plot(mcmcfin)
 gelman.plot(mcmcfin)

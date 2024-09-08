@@ -2,9 +2,6 @@
 # execute each command one at a time to better understand
 # what it does.
 
-# clears workspace:  
-rm(list=ls()) 
-
 library(rstan)
 
 # to be passed on to Stan
@@ -45,6 +42,17 @@ theta <- extract(samples)$theta
 # Now let's plot a histogram for theta. 
 # NB. Some the plots will not look good in RStudio.
 # First, some options to make the plot look better:
+# Figure
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (os == "Windows") {
+  windows(width=6, height=4)
+} else if (os == "Darwin") {  # macOS
+  quartz(width=6, height=4)
+} else {  # Assume Linux or other Unix-like systems
+  x11(width=6, height=4)
+}
+
 par(cex.main = 1.5, mar = c(5, 6, 4, 5) + 0.1, mgp = c(3.5, 1, 0), cex.lab = 1.5,
     font.lab = 2, cex.axis = 1.3, bty = "n", las=1)
 Nbreaks <- 80

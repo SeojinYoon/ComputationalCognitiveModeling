@@ -17,9 +17,28 @@ parameters <- c("th1", "th2", "predh", "predf")
 mcmcfin<-coda.samples(onehtj,parameters,5000)  
 
 summary(mcmcfin)
-x11()
+
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
 plot(mcmcfin)
-x11()
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
 acfplot(mcmcfin)
 gelman.plot(mcmcfin)
 

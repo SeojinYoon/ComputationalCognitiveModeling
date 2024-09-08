@@ -1,6 +1,4 @@
-# clears workspace: 
-rm(list=ls()) 
-
+ 
 library(rstan)
 rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores())
@@ -126,7 +124,7 @@ samples_1 <- stan(model_code=model,
 )
 
 samples_1
-traceplot(samples_1, pars = c("muc", "mur", "muu", "Omega", "sigma", "lp__"))
+traceplot(samples_1, pars = c("muc", "mur", "muu", "Omega", "lp__"))
 
 
 k <- response_2
@@ -144,7 +142,7 @@ samples_2 <- stan(fit=samples_1,
                   control = list(adapt_delta = 0.999, stepsize = 0.005, max_treedepth = 15)  # increase adapt_delta/decrease stepsize to get rid of divergent transitions
 )
 samples_2
-traceplot(samples_2, pars = c("muc", "mur", "muu", "Omega", "sigma", "lp__"))
+traceplot(samples_2, pars = c("muc", "mur", "muu", "Omega", "lp__"))
 
 k <- response_6
 nsubjs <- nrow(k) 	 	# Number of word pairs per participant	
@@ -161,7 +159,7 @@ samples_6 <- stan(fit=samples_1,
                   control = list(adapt_delta = 0.999, stepsize = 0.001, max_treedepth = 15)  # increase adapt_delta/decrease stepsize to get rid of divergent transitions
 )
 samples_6
-traceplot(samples_6, pars = c("muc", "mur", "muu", "Omega", "sigma", "lp__"))
+traceplot(samples_6, pars = c("muc", "mur", "muu", "Omega", "lp__"))
 
 # Now the values for the monitored parameters are in the "samples" object, 
 # ready for inspection.
@@ -186,7 +184,13 @@ rhocu6 <- extract(samples_6)$Omega[, 1, 3]
 rhoru6 <- extract(samples_6)$Omega[, 2, 3]
 
 #### Plots posteriors of the group--level c, r, and u parameters
-windows(10, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(10, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 layout(matrix(1:3, 1, 3, byrow=TRUE))
 par(cex=1.1, mar=c(2, 2, 1, 1), mgp=c(.8, .1, 0))
 
@@ -212,7 +216,13 @@ lines(density(muu1))
 axis(1, seq(0, 1, by=.2), tick=FALSE)
 
 #### Plots posteriors for the correlations
-windows(10, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(10, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 layout(matrix(1:3, 1, 3, byrow=TRUE))
 par(cex=1.1, mar=c(2, 2, 1, 1), mgp=c(.8, .1, 0))
 

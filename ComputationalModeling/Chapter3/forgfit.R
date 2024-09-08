@@ -1,4 +1,3 @@
-rm(list=ls())
 
 #discrepancy for power forgetting function 
 powdiscrep <- function (parms,rec,ri) {                    
@@ -19,7 +18,18 @@ pout <- optim(sparms,powdiscrep,rec=rec,ri=ri)
 pow_pred <- pout$par["a"] *(pout$par["b"]*c(0:max(ri)) + 1)^(-pout$par["c"])  
 
 #plot data and best-fitting predictions
-x11()
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
+
 par(cex.axis=1.2,cex.lab=1.4)
 par(mar=(c(5, 5, 3, 2) + 0.1),las=1)
 plot(ri,rec, 
@@ -53,7 +63,17 @@ histoplot<-function(x,l4x) {
     abline(v=uq,lty="dashed",lwd=2)
     return(c(lq,uq))
 }
-x11()
+
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
+
 par(mfcol=c(1,3),las=1)
 for (i in c(1:dim(bsparms)[2])) {
     print(histoplot(bsparms[,i],names(sparms)[i]))

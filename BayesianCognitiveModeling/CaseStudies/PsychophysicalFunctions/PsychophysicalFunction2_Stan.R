@@ -1,7 +1,5 @@
 ### WARNING: Run PsychometricFunction1.R first and do not close the R window. 
 
-# Set working directory!
-
 library(rstan)
 
 model <- "

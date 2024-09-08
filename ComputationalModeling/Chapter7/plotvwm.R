@@ -26,7 +26,19 @@ x4preds <- seq(from=0,to=20,length.out=length(preds[[1]]))
 #now start plotting
 if (p2f) {
   pdf(file="vwmerrors.pdf",height=6,width=6)
-} else {x11(7,7)}
+} else {
+  system_info <- Sys.info() # Get system information
+  os <- system_info["sysname"] # Extract and print the operating system
+  if (system_info["sysname"] == "Windows") {
+    windows(width = 7, height = 7)
+  } else {
+    # Run a different function or do nothing for non-Windows OS
+    # library(grDevices)
+    # x11(width = 7, height = 7)
+    
+    quartz(width = 7, height = 7)
+  }
+}
 
 par(mar=c(4, 5, 1, 0.5),cex.lab=1.5)
 ylimits <- c(0,0.4)
@@ -69,7 +81,19 @@ if (p2f) {dev.off()}
 ########plot posteriors
 if (p2f) {
   pdf(file="vmposteriors.pdf",height=5,width=5)
-} else {x11(5,5)}
+} else {
+  system_info <- Sys.info() # Get system information
+  os <- system_info["sysname"] # Extract and print the operating system
+  if (system_info["sysname"] == "Windows") {
+    windows(width = 5, height = 5)
+  } else {
+    # Run a different function or do nothing for non-Windows OS
+    # library(grDevices)
+    # x11(width = 5, height = 5)
+    
+    quartz(width = 5, height = 5)
+  }
+}
 xl<- c("Sampled values of g",bquote("Sampled values of "*sigma[vM]))
 
 par(mar=c(4, 4, 1, 0.5))
@@ -88,7 +112,16 @@ for (s in c(1,2)){
 }
 if (p2f) {dev.off()}
 
-x11()
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
+
 par(mfrow=c(1,2))
 plot(c(1:length(posteriors[[1]][,1])),posteriors[[1]][,1],type="l")
 plot(c(1:length(posteriors[[1]][,2])),posteriors[[1]][,2],type="l")

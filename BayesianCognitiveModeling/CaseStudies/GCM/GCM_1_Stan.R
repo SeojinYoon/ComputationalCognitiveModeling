@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -98,7 +96,13 @@ plot(c, w, xlim=c(0, 5), ylim=c(0,1), xlab="Generalization", pch=4, cex=.4,
 #### Figure 17.4 ####
 breaks <- seq(0, t, by=2)
 
-windows(10, 5)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(10, 5)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mgp=c(2, 1, 0), mar=c(4, 4, 2, 2) + .1)
 plot(NA, xlim=c(0.5, 8.5), ylim=c(0, 320), xlab="Stimulus", yaxt="n", xaxt="n",
      ylab="Category Decision")

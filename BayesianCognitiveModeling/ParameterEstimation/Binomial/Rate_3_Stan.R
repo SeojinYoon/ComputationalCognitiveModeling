@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -26,7 +24,20 @@ samples <- stan(file="Rate_3.stan",
 print(samples)
 
 theta <- extract(samples)$theta
- 
+
+# Figure
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows(width=6, height=4)
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11(width=6, height=4)
+  
+  quartz(width=6, height=4)
+}
+
 # Now let's plot a histogram for theta. 
 # First, some options to make the plot look better:
 par(cex.main = 1.5, mar = c(5, 6, 4, 5) + 0.1, mgp = c(3.5, 1, 0), cex.lab = 1.5,

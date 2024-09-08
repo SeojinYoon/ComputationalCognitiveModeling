@@ -1,7 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
-
-# Set working directory!
 
 library(rstan)
 

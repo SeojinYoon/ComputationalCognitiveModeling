@@ -1,7 +1,4 @@
 
-# clears workspace: 
-rm(list=ls()) 
-
 library(rstan)
 
 # to be passed on to Stan
@@ -49,6 +46,18 @@ for (i in 1:length(n)) {
 # end MLE
 
 ######################Plots#####################################################
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows(width=6, height=4)
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11(width=6, height=4)
+  
+  quartz(width=6, height=4)
+}
+
 layout(matrix(c(2,0,1,3),2,2,byrow=T), width=c(2/3, 1/3), heights=c(1/3, 2/3))
 xhist <- hist(n, plot=F)
 yhist <- hist(theta, plot=F)

@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
@@ -115,8 +113,9 @@ if (system_info["sysname"] == "Windows") {
   windows(width=9,height=6) #this command works only under Windows!
 } else {
   # Run a different function or do nothing for non-Windows OS
-  library(grDevices)
-  x11(width = 10, height = 5)
+  # library(grDevices)
+  # x11(width = 10, height = 5)
+  quartz(width = 10, height = 5)
 }
 
 layout(matrix(c(1,2),2,1))
@@ -158,8 +157,6 @@ system_info <- Sys.info() # Get system information
 os <- system_info["sysname"] # Extract and print the operating system
 if (system_info["sysname"] == "Windows") {
   windows() #this command works only under Windows!
-} else {
-  # Run a different function or do nothing for non-Windows OS
 }
 
 par(cex.main = 1.5, mar = c(5, 6, 4, 5) + 0.1, mgp = c(3.5, 1, 0), cex.lab = 1.5,

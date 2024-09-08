@@ -1,5 +1,3 @@
-# clears workspace: 
-rm(list=ls())
 
 library(rstan)
 
@@ -37,9 +35,22 @@ thetaprior  <- extract(samples)$thetaprior
 priorpredk  <- extract(samples)$priorpredk
 postpredk   <- extract(samples)$postpredk
 
+# Figure
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows(width=6, height=4)
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11(width=6, height=4)
+  
+  quartz(width=6, height=4)
+}
 
 layout(matrix(c(1,2),2,1))
 layout.show(2)
+
 #Prior and posterior of theta
 plot(density(theta, from=0, to=1), zero.line=F, axes=F, main="", xlab="",
              ylab="", xlim=c(0,1), ylim=c(0,6))

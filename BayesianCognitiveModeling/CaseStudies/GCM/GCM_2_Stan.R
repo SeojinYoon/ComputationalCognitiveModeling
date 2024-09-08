@@ -1,10 +1,8 @@
-# clears workspace: 
-rm(list=ls()) 
 
 library(rstan)
 
-model <- "
 # Generalized Context Model With Individual Differences
+model <- "
 data { 
   int nstim;
   int nsubj;
@@ -83,7 +81,18 @@ samples <- stan(model_code=model,
 # ready for inspection.
 
 #### Figure 17.5 ####
-windows(12, 7)
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11()
+  
+  quartz()
+}
+
 layout(matrix(1:40, 5, 8, byrow=TRUE))
 par(mar=c(1, 1, 2, 1) + .1, oma=c(3, 3, 0, 0), mgp=c(3, .3, 0))
 

@@ -1,0 +1,136 @@
+
+# install.packages("dplyr")
+# install.packages("dfoptim")
+# install.packages("lsa")
+# install.packages("xtable")
+# install.packages("rjags")
+# install.packages("cubature")
+# install.packages("circular")
+# install.packages("ggplot2")
+# install.packages("mixtools")
+# install.packages("lme4")
+# install.packages("R.utils")
+
+# Load the necessary library
+library(dplyr)
+
+# Ignore warnings
+#options(warn = -1)
+
+# Parameters
+target <- "ComputationalModeling"
+base_dir_path <- "/Users/seojin/Desktop/ComputationalCognitiveModeling" 
+test_code_dir_path <- "/Users/seojin/Desktop/ComputationalCognitiveModeling/TestCodes"
+dir_path <- paste0(base_dir_path, "/", target)
+log_file_path <- paste0(test_code_dir_path, "/" , paste0(target, "_log.txt"))
+checked_source_path <- paste0(test_code_dir_path, "/" , paste0(target, "_checked.csv"))
+plot_dir_path <- paste0(test_code_dir_path, "/" , target)
+
+# Log
+file.remove(log_file_path)
+writeLines("Start testing", log_file_path)
+
+# List all .R files recursively
+r_files <- list.files(path = dir_path, pattern = "\\.R$", recursive = TRUE, full.names = TRUE) 
+
+# Create dataframe to write checking result
+if (!file.exists(checked_source_path)) {
+  df <- data.frame(path = c("Test"), isGood = c(TRUE))
+  for (r_file in r_files) {
+    new_row <- data.frame(
+      path = r_file,
+      isGood = FALSE
+    )
+    df <- rbind(df, new_row)
+    
+  }
+  write.csv(df, file = checked_source_path, row.names = FALSE)
+  
+  checking_files <- r_files
+} else {
+  df <- read.csv(checked_source_path)
+  filtered_df <- df %>% filter(isGood == TRUE)
+  
+  checking_files <- r_files[!r_files %in% filtered_df$path]
+}
+checking_files <- checking_files[-1]
+
+# Function to save plots
+save_all_plots <- function(plot_dir, plot_count) {
+  plot_file <- file.path(plot_dir, paste0("plot_", plot_count, ".png"))
+  dev.copy(png, filename = plot_file)
+  dev.off()
+}
+
+# Get experiment directory paths
+experiment_dir_paths <- unique(dirname(checking_files))
+
+# Loop all experiment directory and run source code.
+for (experiment_dir_path in experiment_dir_paths) {
+  setwd(experiment_dir_path)
+  
+  r_files <- list.files(path = experiment_dir_path, pattern = "\\.R$", full.names = TRUE)
+  r_files <- r_files[r_files %in% checking_files]
+  
+  for (r_file in r_files) {
+    # Get the R file name from the full path
+    file_name <- tools::file_path_sans_ext(basename(r_file))
+    
+    # Define the path to save the plots
+    plot_dir <- file.path(plot_dir_path, "plots", file_name)
+    if (!dir.exists(plot_dir)) {
+      dir.create(plot_dir, recursive = TRUE)  # Ensure all directories in the path are created
+    }
+    
+    # Initialize log_conn to avoid reference errors
+    log_conn <- file(log_file_path, open = "a")
+    
+    tryCatch({
+      # Redirect both standard output and error to the log file
+      sink(log_conn, append = TRUE)
+      sink(log_conn, append = TRUE, type = "message")
+      
+      cat(paste("\nSource code is on checking:", r_file))
+      
+      plot_count <- 1  # Initialize plot count
+      
+      # Run the R script
+      source(r_file)
+      
+      # Save each plot generated during the script execution
+      if (dev.cur() > 1) {  # If there is an active plot
+        save_all_plots(plot_dir, plot_count)
+        plot_count <- plot_count + 1
+      }
+      
+      isGood <<- TRUE
+    }, error = function(e) {
+      # Error handling, writing directly to the log file
+      cat("Error in source:", r_file, "\n", conditionMessage(e), "\n", file = log_file_path, append = TRUE)
+      
+      isGood <<- FALSE
+    }, finally = {
+      # Ensure the sinks are reset and the connection is closed
+      sink()  # Reset the standard output back to the console
+      sink(type = "message")  # Reset the standard error output back to the console
+      close(log_conn)  # Close the log file connection
+      
+      # Write the updated data frame back to the CSV file
+      df <- read.csv(checked_source_path)
+      df[df$path == r_file, "isGood"]  <- isGood
+      write.csv(df, file = checked_source_path, row.names = FALSE)
+    })
+  }
+}
+
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (system_info["sysname"] == "Windows") {
+  windows()
+} else {
+  # Run a different function or do nothing for non-Windows OS
+  # library(grDevices)
+  # x11(width = 10, height = 5)
+  
+  quartz(width = 10, height = 5)
+}

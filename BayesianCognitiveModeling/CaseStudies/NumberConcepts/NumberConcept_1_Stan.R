@@ -1,5 +1,4 @@
-# clears workspace: 
-rm(list=ls()) 
+
 library(rstan)
 
 model <- "
@@ -133,7 +132,14 @@ predz <- extract(samples)$predz
 predga <- extract(samples)$predga
 
 #### Figure 19.2 ####
-windows(7,4)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(7, 4)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
+
 par(mar=c(3, 2, 1, 1) + .1, mgp=c(1.3, 0.2, 0), cex.lab=1.2)
 barplot(table(predpi), ylim=c(0, max(table(predpi)) * 1.2), col="black", 
         yaxt="n", xlab="Number", ylab="")
@@ -142,7 +148,13 @@ title(ylab="Probability", line=.2)
 axis(3, at=seq(.7, 17.5, by=1.2), label=FALSE, tck = 0.02)
 
 #### Figure 19.3 ####
-windows(9, 6)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 6)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mfrow=c(4, 5), mar=c(1, 0, 2, 2) + .1, oma=c(2.6, 2.8, 1, 0),
     mgp=c(1.5, 0.15, 0))
 for (i in 1:ns) {
@@ -173,7 +185,13 @@ cm=-.4
 cb=.99
 shadedSize <- 2
 
-windows(9, 6)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 6)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mfrow=c(2, 3), mar=c(2, 2, 2, 1) + .1, oma=c(2, 3, 0, 0), mgp=c(.2, .2, 0),
     cex.lab=1)
 for (s in subjlist) {
@@ -218,7 +236,13 @@ for (i in 1:ns) {  # computing mode of z for each child
   mv[i] <- uz[which.max(tabulate(match(zSamples[, i], uz)))]
 }
 
-windows(9, 6)
+if (Sys.info()['sysname'] == "Windows") {
+  windows(9, 6)
+} else {
+  # For Mac, you can set up another plotting device or simply skip this
+  message("Not running windows() because the OS is not Windows.")
+}
+
 par(mfrow=c(2, 3), mar=c(2, 2, 2, 1) + .1, oma=c(2, 3, 0, 0), mgp=c(.2, .2, 0),
     cex.lab=1)
 for (z in 1:nz) {

@@ -1,7 +1,3 @@
-# clears workspace: 
-rm(list=ls()) 
-
-# Set working directory!
 
 library(rstan)
 
@@ -200,8 +196,16 @@ mtext("Test Interval (ms)",side=1,outer=T,line=3,cex=1.4)
 
 #### PLOT FOR EXERCISE 12.1.4 
 
-library(grDevices)
-x11(width = 10, height = 5)
+# Figure
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
+if (os == "Windows") {
+  windows(width=6, height=4)
+} else if (os == "Darwin") {  # macOS
+  quartz(width=6, height=4)
+} else {  # Assume Linux or other Unix-like systems
+  x11(width=6, height=4)
+}
 layout(matrix(1:nsubjs,2,4,byrow=T))
 par(mar=c(1,2,2,0),oma=c(5,5,1,1))
 for (i in 1:nsubjs)
