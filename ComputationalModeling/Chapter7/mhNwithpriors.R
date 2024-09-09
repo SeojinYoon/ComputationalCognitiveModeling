@@ -34,6 +34,9 @@ for (i in c(2:length(chain))) {
 
 
 print(c(mean(chain),var(chain)))
+
+system_info <- Sys.info() # Get system information
+os <- system_info["sysname"] # Extract and print the operating system
 if (p2f) {
   pdf(file=paste("npostwpriorsd",as.character(priorsd),".pdf",sep=""),height=5,width=5)
 } else {
@@ -69,8 +72,6 @@ legend("topright",inset=.02,c("Normal PDF","All MCMC","Excluding burnin","Prior 
 if (p2f) {dev.off()}
 
 # Figure
-system_info <- Sys.info() # Get system information
-os <- system_info["sysname"] # Extract and print the operating system
 if (system_info["sysname"] == "Windows") {
   windows()
 } else {
