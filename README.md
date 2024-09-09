@@ -22,12 +22,18 @@ For running codes in BayesianCognitiveModeling, You have to install some librari
 
 **Checked Configuration**
 
+### Windows
+
 Windows 10 (builder version: 22H2)
 - rstan: 2.26.23
 - StanHeaders: 2.26.28
 - rtools: 43
-  
-Mac (version: 12.6.8)
+
+The codes work fine in windows.
+
+### MAC (Intel chip)
+
+Mac (OS version: 12.6.8)
 - rstan: 2.21.0
 - StanHeaders: 2.26.27
 - rtools: don't need
@@ -38,19 +44,68 @@ In my case, mac which uses old version of rstan was fine to run codes, but windo
 install.packages("rstan", repos = c("https://mc-stan.org/r-packages/", getOption("repos")), version = "2.26.23")
 install.packages(c("StanHeaders"), type="source", version="2.26.28")
 ```
-  
+
+### MAC (M-series chip)
+
+- rstan: 2.32.6
+- StanHeaders: 2.32.10
+- rtools: don't need
+
+The codes work fine in Mac (M-series).
+
 ## ComputationalModeling
 
 In order to run the sources in computational modeling sources, you have to install rjags. Following versions are what I checked.
 
+**Checked Configuration**
+
+### Windows
 Windows 10 (builder version: 22H2)
 - rjags: 4.3.1
-  
+
+In case of windows, I had an error to run the code when I imported rjags library even though I have installed rjags in rstudio. The error is "Failed to locate any version of JAGS version 4". To fix the error, follow the guidelines
+
+1. Go to this webstie and downalod and install jags in your computer
+  - https://sourceforge.net/projects/mcmc-jags/
+2. Install rjags in the Rstudio
+  - install.packages("rjags")
+3. If the guideline is not working please refer this website
+  - https://mcmc-jags.sourceforge.io/
+
+### MAC (Intel chip)
+
+Intel chip's mac works fine. You can install rjags using install.packages("rjags") in R.
+
 Mac (version: 12.6.8)
 - rjags: 4.3.0
 
-I experienced mac is fine to run codes, but in case of windows, I had an error to run the code when I imported rjags library even though I have installed rjags in rstudio. The error is "Failed to locate any version of JAGS version 4". To fix the error, I installed rjags using these website. The first one guides me the way to install rjags and the second is download page for rjags. Install process of rjags is very simple. Just download and execute .exe file. 
+### MAC (M-series chip)
 
-1. https://mcmc-jags.sourceforge.io/
-2. https://sourceforge.net/projects/mcmc-jags/
+Mac (Apple M3 Pro, OS version: 14.6.1 (23G93))
+- rjags: 4.3.1
 
+When I install rjags, I got following error. This error is due to the Mac's chip. 
+
+```
+> library(rjags)
+Error: package or namespace load failed for ‘rjags’:
+ .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rjags/libs/rjags.so':
+  dlopen(/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rjags/libs/rjags.so, 0x000A): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: <CAF5E1DC-317A-34FE-988A-FB6F7C73D89E> /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/rjags/libs/rjags.so
+  Reason: tried: '/usr/local/lib/libjags.4.dylib' (no such file), '/System/Volumes/Preboot/Cryptexes/OS/usr/local/lib/libjags.4.dylib' (no such file), '/usr/local/lib/libjags.4.dylib' (no such file), '/Library/Frameworks/R.framework/Resources/lib/libjags.4.dylib' (no such file), '/Library/Java/JavaVirtualMachines/jdk-11.0.18+10/Contents/Home/lib/server/libjags.4.dylib' (no such file), '/var/folders/f
+```
+
+To fix the error, You have to install JAGS.pkg file in your local computer.
+
+1. Go this website: https://sourceforge.net/projects/mcmc-jags/files/JAGS/4.x/Mac%20OS%20X/
+2. Install appropriate JAGS in compatible with your R version
+  - JAGS-4.3.2.pkg for compatibility with R version 4.3.0 and later
+  - JAGS-4.3.1.pkg for compatibility with R versions 4.0.x to 4.2.x
+3. Install rjags in your Rstudio.
+  - Install.packages("rjags")
+  
+References
+- https://sourceforge.net/p/mcmc-jags/discussion/610037/thread/115edca29d/
+  
