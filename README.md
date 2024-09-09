@@ -63,10 +63,14 @@ In order to run the sources in computational modeling sources, you have to insta
 Windows 10 (builder version: 22H2)
 - rjags: 4.3.1
 
-In case of windows, I had an error to run the code when I imported rjags library even though I have installed rjags in rstudio. The error is "Failed to locate any version of JAGS version 4". To fix the error, I installed rjags using these website. The first one guides me the way to install rjags and the second is download page for rjags. Install process of rjags is very simple. Just download and execute .exe file. 
+In case of windows, I had an error to run the code when I imported rjags library even though I have installed rjags in rstudio. The error is "Failed to locate any version of JAGS version 4". To fix the error, follow the guidelines
 
-1. https://mcmc-jags.sourceforge.io/
-2. https://sourceforge.net/projects/mcmc-jags/
+- Go to this webstie and downalod and install jags in your computer: https://sourceforge.net/projects/mcmc-jags/
+- Install rjags in the Rstudio
+ - install.packages("rjags")
+ 
+- References
+ -  https://mcmc-jags.sourceforge.io/
 
 ### MAC (Intel chip)
 
@@ -99,7 +103,7 @@ To fix the error, You have to install JAGS.pkg file in your local computer.
 2. Install appropriate JAGS in compatible with your R version
   - JAGS-4.3.2.pkg for compatibility with R version 4.3.0 and later
   - JAGS-4.3.1.pkg for compatibility with R versions 4.0.x to 4.2.x
-3. Install rjags in your R.
+3. Install rjags in your Rstudio.
   - Install.packages("rjags")
   
 References
