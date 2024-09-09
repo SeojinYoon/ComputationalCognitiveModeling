@@ -65,12 +65,12 @@ Windows 10 (builder version: 22H2)
 
 In case of windows, I had an error to run the code when I imported rjags library even though I have installed rjags in rstudio. The error is "Failed to locate any version of JAGS version 4". To fix the error, follow the guidelines
 
-- Go to this webstie and downalod and install jags in your computer: https://sourceforge.net/projects/mcmc-jags/
-- Install rjags in the Rstudio
- - install.packages("rjags")
- 
-- References
- -  https://mcmc-jags.sourceforge.io/
+1. Go to this webstie and downalod and install jags in your computer
+  - https://sourceforge.net/projects/mcmc-jags/
+2. Install rjags in the Rstudio
+  - install.packages("rjags")
+3. If the guideline is not working please refer this website
+  - https://mcmc-jags.sourceforge.io/
 
 ### MAC (Intel chip)
 
