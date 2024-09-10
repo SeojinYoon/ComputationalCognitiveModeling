@@ -17,10 +17,14 @@ library(dplyr)
 # Ignore warnings
 #options(warn = -1)
 
-# Parameters
+# Constants
 target <- "ComputationalModeling"
+
+# Parameters
 base_dir_path <- "/Users/seojin/Desktop/ComputationalCognitiveModeling" 
-test_code_dir_path <- "/Users/seojin/Desktop/ComputationalCognitiveModeling/TestCodes"
+
+# Paths
+test_code_dir_path <- paste0(base_dir_path, "/", "TestCodes")
 dir_path <- paste0(base_dir_path, "/", target)
 log_file_path <- paste0(test_code_dir_path, "/" , paste0(target, "_log.txt"))
 checked_source_path <- paste0(test_code_dir_path, "/" , paste0(target, "_checked.csv"))

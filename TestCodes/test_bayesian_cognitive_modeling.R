@@ -1,5 +1,9 @@
 
+# install.packages("rstan")
 # install.packages("dplyr")
+# install.packages("polspline")
+# install.packages("logspline")
+# install.packages("rstudioapi")
 
 # Load the necessary library
 library(dplyr)
@@ -7,10 +11,14 @@ library(dplyr)
 # Ignore warnings
 #options(warn = -1)
 
-# Parameters
+# Constants
 target <- "BayesianCognitiveModeling"
-base_dir_path <- "/Users/seojin/Documents/ComputationalCognitiveModeling" 
-test_code_dir_path <- "/Users/seojin/Documents/ComputationalCognitiveModeling/TestCodes"
+
+# Parameters
+base_dir_path <- "/Users/seojin/Desktop/ComputationalCognitiveModeling" 
+
+# Parameters
+test_code_dir_path <- paste0(base_dir_path, "/", "TestCodes")
 dir_path <- paste0(base_dir_path, "/", target)
 log_file_path <- paste0(test_code_dir_path, "/" , paste0(target, "_log.txt"))
 checked_source_path <- paste0(test_code_dir_path, "/" , paste0(target, "_checked.csv"))
